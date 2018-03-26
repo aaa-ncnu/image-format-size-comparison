@@ -1,5 +1,33 @@
 .image-viewer {
-    &-nav {
-        background-color: teal;
+  border: solid 1px black;
+
+    &__nav {
+      border: solid 1px black;
+      
+      .nav-item {
+        border: solid 1px black;
+        margin-right: 1rem !important;
+      }
     }
+
+
+  &__main {
+    border: solid 1px black;
+    display: flex; 
+  }
+
+  &__sidebar {
+    width: 25%;
+    border: solid 1px black;
+  }
+
+  &__viewer {
+    width: 75%;
+    border: solid 1px black;
+  }
+}
+
+.form-field-group {
+    display: flex;
+    flex-direction: column;
 }
