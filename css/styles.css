@@ -9,13 +9,14 @@
     border: solid 1px black;
     display: flex; }
   .image-viewer__sidebar {
-    width: 25%;
-    border: solid 1px black; }
+    width: 15%;
+    border: solid 1px black;
+    padding-left: 10px; }
   .image-viewer__viewer {
-    width: 75%;
+    width: 85%;
     border: solid 1px black; }
 
 .form-field-group {
   display: flex;
   flex-direction: column; }
-/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3Njc3Mvc3R5bGVzLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSx3QkFBdUIsRUEwQnhCO0VBeEJHO0lBQ0Usd0JBQXVCLEVBTXhCO0lBUEE7TUFJRyx3QkFBdUI7TUFDdkIsOEJBQTZCLEVBQzlCO0VBSUw7SUFDRSx3QkFBdUI7SUFDdkIsY0FBYSxFQUNkO0VBRUQ7SUFDRSxXQUFVO0lBQ1Ysd0JBQXVCLEVBQ3hCO0VBRUQ7SUFDRSxXQUFVO0lBQ1Ysd0JBQXVCLEVBQ3hCOztBQUdIO0VBQ0ksY0FBYTtFQUNiLHVCQUFzQixFQUN6QiIsImZpbGUiOiJzdHlsZXMuY3NzIn0= */
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3Njc3Mvc3R5bGVzLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSx3QkFBdUIsRUEyQnhCO0VBekJDO0lBQ0Usd0JBQXVCLEVBTXhCO0lBUEE7TUFJRyx3QkFBdUI7TUFDdkIsOEJBQTZCLEVBQzlCO0VBSUg7SUFDRSx3QkFBdUI7SUFDdkIsY0FBYSxFQUNkO0VBRUQ7SUFDRSxXQUFVO0lBQ1Ysd0JBQXVCO0lBQ3ZCLG1CQUFrQixFQUNuQjtFQUVEO0lBQ0UsV0FBVTtJQUNWLHdCQUF1QixFQUN4Qjs7QUFHSDtFQUNFLGNBQWE7RUFDYix1QkFBc0IsRUFDdkIiLCJmaWxlIjoic3R5bGVzLmNzcyJ9 */

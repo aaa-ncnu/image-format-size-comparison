@@ -1,14 +1,14 @@
 .image-viewer {
   border: solid 1px black;
 
-    &__nav {
+  &__nav {
+    border: solid 1px black;
+    
+    .nav-item {
       border: solid 1px black;
-      
-      .nav-item {
-        border: solid 1px black;
-        margin-right: 1rem !important;
-      }
+      margin-right: 1rem !important;
     }
+  }
 
 
   &__main {
@@ -17,17 +17,18 @@
   }
 
   &__sidebar {
-    width: 25%;
+    width: 15%;
     border: solid 1px black;
+    padding-left: 10px;
   }
 
   &__viewer {
-    width: 75%;
+    width: 85%;
     border: solid 1px black;
   }
 }
 
 .form-field-group {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
