@@ -69,12 +69,12 @@
           <br>
           <h5>Img size</h5>
           <div class="form-field-group">
-              <input type="radio" id="densityChoice1"
-              name="density" value="retina">
-            <label for="densityChoice1">Retina</label>
-            <input type="radio" id="densityChoice2"
-              name="density" value="standard">
-            <label for="densityChoice2">Standard</label>
+              <input type="radio" id="sizeChoice1"
+              name="size" value="768width">
+            <label for="sizeChoice1">768 width</label>
+            <input type="radio" id="sizeChoice2"
+              name="size" value="1440width">
+            <label for="sizeChoice2">1440 width</label>
           </div>
           <br>
           <h5>Img Quality</h5>
@@ -102,7 +102,9 @@
       </aside>
 
       <div class="image-viewer__viewer">
-        Image will appear here
+        <div class="image-viewer__image" id="image">
+
+        </div>
 
       </div>
     </div>

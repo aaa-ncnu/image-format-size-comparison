@@ -26,6 +26,12 @@
     width: 85%;
     border: solid 1px black;
   }
+
+  &__image {
+    img {
+      max-height: 80vh;
+    }
+  }
 }
 
 .form-field-group {
