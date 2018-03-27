@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var navButtons = document.querySelectorAll(".nav-button");
   [].forEach.call(navButtons, function(button) {
 
-    
+
     // add an event listener on click
     button.addEventListener("click", function(event){
       console.log(event.srcElement.dataset.imgUrl);
