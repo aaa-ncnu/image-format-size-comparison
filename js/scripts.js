@@ -3,10 +3,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const navButtons = Array.from(document.querySelectorAll('.nav-button'));
 
-  let currentImage = 0;
-
   const filterState = {
     density: 'standard',
+    currentImage: 0,
     showWebP: false,
     imgSize: 768,
     quality: [
@@ -19,16 +18,27 @@ document.addEventListener("DOMContentLoaded", function() {
     ]
   };
 
+  const availableQualities = [90, 80, 70, 60, 50, 40];
+
+  function getImageQualityFilterElements() {
+    return availableQualities.map(availableQuality => {
+      return document.querySelector(`input[name="quality-${availableQuality}"]`);
+    });
+  }
+
   function redrawImageQualityFilters() {
-    [40, 50, 60, 70, 80, 90].forEach(availableQuality => {
-      const el = document.querySelector(`input[name="quality-${availableQuality}"]`);
-      
+    const els = getImageQualityFilterElements();
+    availableQualities.forEach((availableQuality, index) => {
+      if (filterState.quality.indexOf(availableQuality) !== -1) {
+        els[index].setAttribute('checked', '');
+      }
+      else {
+        els[index].removeAttribute('checked');
+      }
     });
   }
 
   function createImageSourceWithSize(imgSrc, width) {
-    // TODO: Remove `return imgSrc;` line when we have images.
-    return imgSrc;
     const re = /(.*)\.([^.]+)$/;
     const [, path, extension] = re.exec(imgSrc);
     return `${path}-${width}w.${extension}`;
@@ -47,20 +57,30 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function showImage(selectedImage) {
-    currentImage = selectedImage;
+    filterState.currentImage = selectedImage;
     clearElementChildren(imgContainer);
 
-    filterState.quality.forEach(quality => {
+    availableQualities.forEach(quality => {
+      if (filterState.quality.indexOf(quality) === -1) {
+        return;
+      }
+      const description = document.createElement('div');
+      description.className = 'image-viewer__description';
+      // TODO: Perform Ajax request to get content-length header and display as KBs.
+      description.textContent = `Quality: ${quality}%`;
+
       const img = document.createElement('img');
       let src = createImageSourceWithSize(
         navButtons[selectedImage].dataset.imgUrl,
-        filterState.imgSize
+        filterState.density === 'standard' ? filterState.imgSize : 2 * filterState.imgSize
       );
       img.src = createImageSourceWithQuality(
         src,
         quality
       );
+
       imgContainer.appendChild(img);
+      imgContainer.appendChild(description);
     });
   }
 
@@ -70,6 +90,25 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
+  getImageQualityFilterElements().forEach((el, index) => {
+    el.addEventListener('change', () => {
+      const value = availableQualities[index];
+      if (el.checked) {
+        if (filterState.quality.indexOf(value) === -1) {
+          filterState.quality.push(value);
+        }
+      }
+      else {
+        const position = filterState.quality.indexOf(value);
+        if (position !== -1) {
+          filterState.quality.splice(position, 1);
+        }
+      }
+      showImage(filterState.currentImage);
+    });
+  });
+
+  redrawImageQualityFilters();
   showImage(0);
 
 
