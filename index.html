@@ -22,28 +22,28 @@
       <div class="image-viewer__nav">
         <ul class="nav justify-content-center">
           <li class="nav-item">
-            <a class="nav-button" href="#" data-img-url="/img/jpeg/landscape/landscape-1.jpg">LS Jpeg 1</a>
+            <a class="nav-button" href="#" data-img-url="/img/jpeg/landscape/landscape-1.jpg" data-webp-url="/img/jpeg/landscape/landscape-1.webp">LS Jpeg 1</a>
           </li>
           <li class="nav-item">
-            <a class="nav-button" href="#" data-img-url="/img/jpeg/landscape/landscape-2.jpg">LS Jpeg 2</a>
+            <a class="nav-button" href="#" data-img-url="/img/jpeg/landscape/landscape-2.jpg" data-webp-url="/img/jpeg/landscape/landscape-2.webp">LS Jpeg 2</a>
           </li>
           <li class="nav-item">
-            <a class="nav-button" href="#" data-img-url="/img/jpeg/portrait/portrait-1.jpg">PT Jpeg 1</a>
+            <a class="nav-button" href="#" data-img-url="/img/jpeg/portrait/portrait-1.jpg" data-webp-url="/img/jpeg/portrait/portrait-1.webp">PT Jpeg 1</a>
           </li>
           <li class="nav-item">
-            <a class="nav-button" href="#" data-img-url="/img/jpeg/portrait/portrait-2.jpg">PT Jpeg 2</a>
+            <a class="nav-button" href="#" data-img-url="/img/jpeg/portrait/portrait-2.jpg" data-webp-url="/img/jpeg/portrait/portrait-2.webp">PT Jpeg 2</a>
           </li>
           <li class="nav-item">
-            <a class="nav-button" href="#" data-img-url="/img/png/landscape/landscape-1.png">LS Png 1</a>
+            <a class="nav-button" href="#" data-img-url="/img/png/landscape/landscape-1.png" data-webp-url="/img/png/landscape/landscape-1.webp">LS Png 1</a>
           </li>
           <li class="nav-item">
-            <a class="nav-button" href="#" data-img-url="/img/png/landscape/landscape-2.png">LS Png 2</a>
+            <a class="nav-button" href="#" data-img-url="/img/png/landscape/landscape-2.png" data-webp-url="/img/png/landscape/landscape-2.webp">LS Png 2</a>
           </li>
           <li class="nav-item">
-            <a class="nav-button" href="#" data-img-url="/img/png/portrait/portrait-1.png">PT Png 1</a>
+            <a class="nav-button" href="#" data-img-url="/img/png/portrait/portrait-1.png" data-webp-url="/img/png/portrait/portrait-1.webp">PT Png 1</a>
           </li>
           <li class="nav-item">
-            <a class="nav-button" href="#" data-img-url="/img/png/portrait/portrait-2.png">PT Png 2</a>
+            <a class="nav-button" href="#" data-img-url="/img/png/portrait/portrait-2.png" data-webp-url="/img/png/portrait/portrait-2.webp">PT Png 2</a>
           </li>
         </ul>
       </div>
@@ -52,7 +52,7 @@
     <div class="image-viewer__main">
       <aside class="image-viewer__sidebar">
         <form action="">
-          <h5>Img density</h5>
+          <h5>Density</h5>
           <div class="form-field-group">
             <input type="radio" id="densityChoice1" 
               name="density" value="retina">
@@ -64,6 +64,8 @@
           <br>
           <input type="checkbox" id="webP"
               name="webP" value="webP">
+          <!-- <input type="checkbox" id="webP"
+              name="webP" value="webP" onchange="showWebP"> -->
           <label for="webP">Show WebP</label>
           <br>
           <br>
@@ -103,6 +105,9 @@
 
       <div class="image-viewer__viewer">
         <div class="image-viewer__image" id="image">
+
+        </div>
+        <div class="image-viewer__image" id="webPimage">
 
         </div>
 

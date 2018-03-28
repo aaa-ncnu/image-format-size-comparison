@@ -1,35 +1,41 @@
 .image-viewer {
-  border: solid 1px black;
 
   &__nav {
-    border: solid 1px black;
-    
+
     .nav-item {
-      border: solid 1px black;
       margin-right: 1rem !important;
+    }
+    .nav-button {
+      color: white !important;
+      background-color: teal;
+      padding: 3px;
     }
   }
 
 
   &__main {
-    border: solid 1px black;
     display: flex; 
   }
 
   &__sidebar {
-    width: 15%;
-    border: solid 1px black;
+    width: 10%;
     padding-left: 10px;
+    padding-top: 10px;
+
+    h5 {
+      letter-spacing: 1px !important;
+    }
   }
 
   &__viewer {
-    width: 85%;
-    border: solid 1px black;
+    width: 90%;
   }
 
   &__image {
     img {
-      max-height: 80vh;
+      padding-top: 10px;
+      padding-left: 10px;
+      max-width: 768px;
     }
   }
 }
