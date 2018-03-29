@@ -20,6 +20,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const availableQualities = [90, 80, 70, 60, 50, 40];
 
+  function getImageDensityFilterElements() {
+    return Array.from(document.querySelectorAll(`input[name="density"]`));
+  }
+
+  function redrawImageDensityFilters() {
+    const els = getImageDensityFilterElements();
+    els.forEach(el => {
+      if (el.value === filterState.density) {
+        el.checked = true;
+      }
+    });
+  }
+
   function getImageQualityFilterElements() {
     return availableQualities.map(availableQuality => {
       return document.querySelector(`input[name="quality-${availableQuality}"]`);
@@ -74,6 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
         navButtons[selectedImage].dataset.imgUrl,
         filterState.density === 'standard' ? filterState.imgSize : 2 * filterState.imgSize
       );
+      img.style.maxWidth = `${filterState.imgSize}px`;
       img.src = createImageSourceWithQuality(
         src,
         quality
@@ -108,7 +122,33 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
+  getImageDensityFilterElements().forEach(el => {
+    el.addEventListener('change', () => {
+      filterState.density = el.value;
+      showImage(filterState.currentImage);
+    });
+  });
+
+  // getImageDensityFilterElements().forEach((el, index) => {
+  //   el.addEventListener('change', () => {
+  //     const value = availableDensities[index];
+  //     if (el.checked) {
+  //       if (filterState.density.indexOf(value) === -1) {
+  //         filterState.density.push(value);
+  //       }
+  //     }
+  //     else {
+  //       const position = filterState.density.indexOf(value);
+  //       if (position !== -1) {
+  //         filterState.density.splice(position, 1);
+  //       }
+  //     }
+  //     showImage(filterState.currentImage);
+  //   });
+  // });
+
   redrawImageQualityFilters();
+  redrawImageDensityFilters();
   showImage(0);
 
 
