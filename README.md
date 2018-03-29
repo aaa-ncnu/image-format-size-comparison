@@ -1,7 +1,31 @@
-`npm install`
+# Image Format Size Comparison (for Via)
 
-to start scss engine/watch
-`npm run dev`
+A javascript application to demonstrate various image sizes, qualities, and densities to Via Magazine.
 
-to start server
-`php -S localhost:2323`
+## Startup
+
+1. Clone the repo
+
+1. Install dependencies into local, run:
+
+    ```bash
+    npm install
+    ```
+
+1. Run local:
+
+    In one terminal start a local server:
+
+    ```bash
+    php -S localhost:2323
+    ```
+
+    In another terminal, start your Sass/JS transpiler:
+
+    ```bash
+    npm run dev
+    ```
+
+## Endpoint
+
+* http://localhost:2323/ — Image Format Size Comparison
