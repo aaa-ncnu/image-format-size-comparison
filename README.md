@@ -20,7 +20,7 @@ A javascript application to demonstrate various image sizes, qualities, and dens
     php -S localhost:2323
     ```
 
-    In another terminal, start your Sass/JS transpiler:
+    In another terminal, start your Sass transpiler:
 
     ```bash
     npm run dev

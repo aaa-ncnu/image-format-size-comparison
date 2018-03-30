@@ -14,11 +14,36 @@ document.addEventListener("DOMContentLoaded", function() {
       60,
       70,
       80,
-      90
+      90,
+      100
     ]
   };
 
-  const availableQualities = [90, 80, 70, 60, 50, 40];
+  const availableQualities = [100, 90, 80, 70, 60, 50, 40];
+
+  function getImageWebPFilterElement() {
+    return document.getElementById('webP');
+  }
+
+  function redrawImageWebPFilter() {
+    const el = getImageWebPFilterElement();
+    if (el.checked === true) {
+      filterState.showWebP = true;
+    }
+  };
+
+  function getImageDensityFilterElements() {
+    return Array.from(document.querySelectorAll(`input[name="density"]`));
+  }
+
+  function redrawImageDensityFilters() {
+    const els = getImageDensityFilterElements();
+    els.forEach(el => {
+      if (el.value === filterState.density) {
+        el.checked = true;
+      }
+    });
+  }
 
   function getImageQualityFilterElements() {
     return availableQualities.map(availableQuality => {
@@ -53,12 +78,23 @@ document.addEventListener("DOMContentLoaded", function() {
   function redrawAllFilters () {
     redrawImageQualityFilters();
     redrawImageSizeFilter();
+    redrawImageDensityFilters();
+    redrawImageWebPFilter();
   }
 
   function createImageSourceWithSize(imgSrc, width) {
     const re = /(.*)\.([^.]+)$/;
     const [, path, extension] = re.exec(imgSrc);
     return `${path}-${width}w.${extension}`;
+  }
+
+  function createImageSourceWithCorrectExtentsion(imgSrc) {
+    if (!filterState.showWebP) {
+      return imgSrc;
+    }
+    const re = /(.*)\.[^.]+$/;
+    const [, path] = re.exec(imgSrc);
+    return `${path}.webp`;
   }
 
   function createImageSourceWithQuality(imgSrc, quality) {
@@ -77,10 +113,7 @@ document.addEventListener("DOMContentLoaded", function() {
     showImage(filterState.currentImage);
   }
 
-  function showImage(selectedImage) {
-    filterState.currentImage = selectedImage;
-    clearElementChildren(imgContainer);
-
+  function showImageJpeg(selectedImage) {
     availableQualities.forEach(quality => {
       if (filterState.quality.indexOf(quality) === -1) {
         return;
@@ -91,18 +124,49 @@ document.addEventListener("DOMContentLoaded", function() {
       description.textContent = `Quality: ${quality}%`;
 
       const img = document.createElement('img');
+      img.style.maxWidth = `${filterState.imgSize}px`;
       let src = createImageSourceWithSize(
         navButtons[selectedImage].dataset.imgUrl,
         filterState.density === 'standard' ? filterState.imgSize : 2 * filterState.imgSize
       );
-      img.src = createImageSourceWithQuality(
+      src = createImageSourceWithQuality(
         src,
         quality
       );
 
+      img.src = createImageSourceWithCorrectExtentsion(src);
       imgContainer.appendChild(img);
       imgContainer.appendChild(description);
     });
+  }
+
+  function showImagePng(selectedImage) {
+    const description = document.createElement('div');
+    description.className = 'image-viewer__description';
+    // TODO: Perform Ajax request to get content-length header and display as KBs.
+    description.textContent = `To Do: Add size`;
+
+    const img = document.createElement('img');
+    img.style.maxWidth = `${filterState.imgSize}px`;
+    let src = createImageSourceWithSize(
+      navButtons[selectedImage].dataset.imgUrl,
+      filterState.density === 'standard' ? filterState.imgSize : 2 * filterState.imgSize
+    );
+
+    img.src = createImageSourceWithCorrectExtentsion(src);
+    imgContainer.appendChild(img);
+    imgContainer.appendChild(description);
+  }
+
+  function showImage(selectedImage) {
+    filterState.currentImage = selectedImage;
+    clearElementChildren(imgContainer);
+
+    if (/\.jpe?g$/.test(navButtons[selectedImage].dataset.imgUrl)) {
+      showImageJpeg(selectedImage);
+    } else {
+      showImagePng(selectedImage);
+    }
   }
 
   navButtons.forEach((el, index) => {
@@ -129,6 +193,19 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
+  getImageDensityFilterElements().forEach(el => {
+    el.addEventListener('change', () => {
+      filterState.density = el.value;
+      redrawCurrentImage();
+    });
+  });
+
+  getImageWebPFilterElement().addEventListener('change', () => {
+    const el = getImageWebPFilterElement();
+    filterState.showWebP = el.checked;
+    redrawCurrentImage();
+  });
+
   getImageSizeFilterElements().forEach((el) => {
     el.addEventListener('change', () => {
       filterState.imgSize = Number(el.value);
@@ -137,5 +214,5 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   redrawAllFilters();
-  showImage(0);
+  redrawCurrentImage();
 });
