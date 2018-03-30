@@ -26,16 +26,33 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
+  function getImageSizeFilterElements() {
+    return Array.from(document.querySelectorAll(`input[name="size"]`));
+  }
+
   function redrawImageQualityFilters() {
     const els = getImageQualityFilterElements();
     availableQualities.forEach((availableQuality, index) => {
       if (filterState.quality.indexOf(availableQuality) !== -1) {
-        els[index].setAttribute('checked', '');
+        els[index].checked = true;
       }
       else {
-        els[index].removeAttribute('checked');
+        els[index].checked = false;
       }
     });
+  }
+
+  function redrawImageSizeFilter() {
+    getImageSizeFilterElements().forEach(el => {
+      if (Number(el.value) === filterState.imgSize) {
+        el.checked = true;
+      }
+    });
+  }
+
+  function redrawAllFilters () {
+    redrawImageQualityFilters();
+    redrawImageSizeFilter();
   }
 
   function createImageSourceWithSize(imgSrc, width) {
@@ -54,6 +71,10 @@ document.addEventListener("DOMContentLoaded", function() {
     Array.from(element.children).forEach(child => {
       element.removeChild(child);
     });
+  }
+
+  function redrawCurrentImage() {
+    showImage(filterState.currentImage);
   }
 
   function showImage(selectedImage) {
@@ -104,41 +125,17 @@ document.addEventListener("DOMContentLoaded", function() {
           filterState.quality.splice(position, 1);
         }
       }
-      showImage(filterState.currentImage);
+      redrawCurrentImage();
     });
   });
 
-  redrawImageQualityFilters();
+  getImageSizeFilterElements().forEach((el) => {
+    el.addEventListener('change', () => {
+      filterState.imgSize = Number(el.value);
+      redrawCurrentImage();
+    });
+  });
+
+  redrawAllFilters();
   showImage(0);
-
-
-  // // add event listeners for each image on top
-
-
-  //   // add an event listener on click
-  //   button.addEventListener("click", function(event){
-  //     // console.log(event.srcElement.dataset.imgUrl);
-  //     imgContainer.innerHTML = '';
-  //     img = document.createElement('img');
-  //     img.src = event.srcElement.dataset.imgUrl;
-  //     forWebPImage = event.srcElement.dataset.webpUrl;
-  //     imgContainer.appendChild(img);
-  //     appState.imgSource = forWebPImage;
-  //   });
-  // });
-
-  // // add event listeners for each option on the left
-  // var webPcheckbox = document.getElementById('webP');
-  // var webPimageContainer = document.getElementById('webPimage');
-  // webPcheckbox.onchange = function(){
-  //   if (webPcheckbox.checked) {
-  //     webPimageContainer.innerHTML = '';
-  //     img = document.createElement('img');
-  //     img.src = appState.imgSource;
-  //     webPimageContainer.appendChild(img);
-
-  //   } else {
-  //     webPimageContainer.innerHTML = '';
-  //   }
-  // };
 });

@@ -1,0 +1,24 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #444; }
+
+.sidebar {
+  background: #f4f4f4;
+  padding: 20px; }
+
+img {
+  max-width: 100%;
+  height: auto; }
+
+.image-viewer__description {
+  margin-bottom: 20px; }
+
+li.nav-item {
+  border-right: 1px solid #ccc;
+  margin-right: 0; }
+  li.nav-item:nth-child(8) {
+    border-right: none; }
+  li.nav-item .nav-link {
+    padding: 0 1em; }
+
+/*# sourceMappingURL=images.css.map */
