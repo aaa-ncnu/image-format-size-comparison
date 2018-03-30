@@ -51,16 +51,35 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
+  function getImageSizeFilterElements() {
+    return Array.from(document.querySelectorAll(`input[name="size"]`));
+  }
+
   function redrawImageQualityFilters() {
     const els = getImageQualityFilterElements();
     availableQualities.forEach((availableQuality, index) => {
       if (filterState.quality.indexOf(availableQuality) !== -1) {
-        els[index].setAttribute('checked', '');
+        els[index].checked = true;
       }
       else {
-        els[index].removeAttribute('checked');
+        els[index].checked = false;
       }
     });
+  }
+
+  function redrawImageSizeFilter() {
+    getImageSizeFilterElements().forEach(el => {
+      if (Number(el.value) === filterState.imgSize) {
+        el.checked = true;
+      }
+    });
+  }
+
+  function redrawAllFilters () {
+    redrawImageQualityFilters();
+    redrawImageSizeFilter();
+    redrawImageDensityFilters();
+    redrawImageWebPFilter();
   }
 
   function createImageSourceWithSize(imgSrc, width) {
@@ -88,6 +107,10 @@ document.addEventListener("DOMContentLoaded", function() {
     Array.from(element.children).forEach(child => {
       element.removeChild(child);
     });
+  }
+
+  function redrawCurrentImage() {
+    showImage(filterState.currentImage);
   }
 
   function showImageJpeg(selectedImage) {
@@ -135,7 +158,6 @@ document.addEventListener("DOMContentLoaded", function() {
     imgContainer.appendChild(description);
   }
 
-
   function showImage(selectedImage) {
     filterState.currentImage = selectedImage;
     clearElementChildren(imgContainer);
@@ -145,7 +167,6 @@ document.addEventListener("DOMContentLoaded", function() {
     } else {
       showImagePng(selectedImage);
     }
-
   }
 
   navButtons.forEach((el, index) => {
@@ -168,25 +189,30 @@ document.addEventListener("DOMContentLoaded", function() {
           filterState.quality.splice(position, 1);
         }
       }
-      showImage(filterState.currentImage);
+      redrawCurrentImage();
     });
   });
 
   getImageDensityFilterElements().forEach(el => {
     el.addEventListener('change', () => {
       filterState.density = el.value;
-      showImage(filterState.currentImage);
+      redrawCurrentImage();
     });
   });
 
   getImageWebPFilterElement().addEventListener('change', () => {
     const el = getImageWebPFilterElement();
     filterState.showWebP = el.checked;
-    showImage(filterState.currentImage);
+    redrawCurrentImage();
   });
 
-  redrawImageQualityFilters();
-  redrawImageDensityFilters();
-  redrawImageWebPFilter();
-  showImage(0);
+  getImageSizeFilterElements().forEach((el) => {
+    el.addEventListener('change', () => {
+      filterState.imgSize = Number(el.value);
+      redrawCurrentImage();
+    });
+  });
+
+  redrawAllFilters();
+  redrawCurrentImage();
 });
