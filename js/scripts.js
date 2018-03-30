@@ -21,6 +21,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const availableQualities = [100, 90, 80, 70, 60, 50, 40];
 
+  function getImageWebPFilterElement() {
+    return document.getElementById('webP');
+  }
+
+  function redrawImageWebPFilter() {
+    const el = getImageWebPFilterElement();
+    if (el.checked === true) {
+      filterState.showWebP = true;
+    }
+  };
+
   function getImageDensityFilterElements() {
     return Array.from(document.querySelectorAll(`input[name="density"]`));
   }
@@ -58,6 +69,15 @@ document.addEventListener("DOMContentLoaded", function() {
     return `${path}-${width}w.${extension}`;
   }
 
+  function createImageSourceWithCorrectExtentsion(imgSrc) {
+    if (!filterState.showWebP) {
+      return imgSrc;
+    }
+    const re = /(.*)\.[^.]+$/;
+    const [, path] = re.exec(imgSrc);
+    return `${path}.webp`;
+  }
+
   function createImageSourceWithQuality(imgSrc, quality) {
     const re = /(.*)\.([^.]+)$/;
     const [, path, extension] = re.exec(imgSrc);
@@ -70,10 +90,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-  function showImage(selectedImage) {
-    filterState.currentImage = selectedImage;
-    clearElementChildren(imgContainer);
-
+  function showImageJpeg(selectedImage) {
     availableQualities.forEach(quality => {
       if (filterState.quality.indexOf(quality) === -1) {
         return;
@@ -84,19 +101,51 @@ document.addEventListener("DOMContentLoaded", function() {
       description.textContent = `Quality: ${quality}%`;
 
       const img = document.createElement('img');
+      img.style.maxWidth = `${filterState.imgSize}px`;
       let src = createImageSourceWithSize(
         navButtons[selectedImage].dataset.imgUrl,
         filterState.density === 'standard' ? filterState.imgSize : 2 * filterState.imgSize
       );
-      img.style.maxWidth = `${filterState.imgSize}px`;
-      img.src = createImageSourceWithQuality(
+      src = createImageSourceWithQuality(
         src,
         quality
       );
 
+      img.src = createImageSourceWithCorrectExtentsion(src);
       imgContainer.appendChild(img);
       imgContainer.appendChild(description);
     });
+  }
+
+  function showImagePng(selectedImage) {
+    const description = document.createElement('div');
+    description.className = 'image-viewer__description';
+    // TODO: Perform Ajax request to get content-length header and display as KBs.
+    description.textContent = `To Do: Add size`;
+
+    const img = document.createElement('img');
+    img.style.maxWidth = `${filterState.imgSize}px`;
+    let src = createImageSourceWithSize(
+      navButtons[selectedImage].dataset.imgUrl,
+      filterState.density === 'standard' ? filterState.imgSize : 2 * filterState.imgSize
+    );
+
+    img.src = createImageSourceWithCorrectExtentsion(src);
+    imgContainer.appendChild(img);
+    imgContainer.appendChild(description);
+  }
+
+
+  function showImage(selectedImage) {
+    filterState.currentImage = selectedImage;
+    clearElementChildren(imgContainer);
+
+    if (/\.jpe?g$/.test(navButtons[selectedImage].dataset.imgUrl)) {
+      showImageJpeg(selectedImage);
+    } else {
+      showImagePng(selectedImage);
+    }
+
   }
 
   navButtons.forEach((el, index) => {
@@ -130,39 +179,14 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
+  getImageWebPFilterElement().addEventListener('change', () => {
+    const el = getImageWebPFilterElement();
+    filterState.showWebP = el.checked;
+    showImage(filterState.currentImage);
+  });
 
   redrawImageQualityFilters();
   redrawImageDensityFilters();
+  redrawImageWebPFilter();
   showImage(0);
-
-
-  // // add event listeners for each image on top
-
-
-  //   // add an event listener on click
-  //   button.addEventListener("click", function(event){
-  //     // console.log(event.srcElement.dataset.imgUrl);
-  //     imgContainer.innerHTML = '';
-  //     img = document.createElement('img');
-  //     img.src = event.srcElement.dataset.imgUrl;
-  //     forWebPImage = event.srcElement.dataset.webpUrl;
-  //     imgContainer.appendChild(img);
-  //     appState.imgSource = forWebPImage;
-  //   });
-  // });
-
-  // // add event listeners for each option on the left
-  // var webPcheckbox = document.getElementById('webP');
-  // var webPimageContainer = document.getElementById('webPimage');
-  // webPcheckbox.onchange = function(){
-  //   if (webPcheckbox.checked) {
-  //     webPimageContainer.innerHTML = '';
-  //     img = document.createElement('img');
-  //     img.src = appState.imgSource;
-  //     webPimageContainer.appendChild(img);
-
-  //   } else {
-  //     webPimageContainer.innerHTML = '';
-  //   }
-  // };
 });
