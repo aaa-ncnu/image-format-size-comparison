@@ -14,11 +14,12 @@ document.addEventListener("DOMContentLoaded", function() {
       60,
       70,
       80,
-      90
+      90,
+      100
     ]
   };
 
-  const availableQualities = [90, 80, 70, 60, 50, 40];
+  const availableQualities = [100, 90, 80, 70, 60, 50, 40];
 
   function getImageDensityFilterElements() {
     return Array.from(document.querySelectorAll(`input[name="density"]`));
@@ -129,23 +130,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  // getImageDensityFilterElements().forEach((el, index) => {
-  //   el.addEventListener('change', () => {
-  //     const value = availableDensities[index];
-  //     if (el.checked) {
-  //       if (filterState.density.indexOf(value) === -1) {
-  //         filterState.density.push(value);
-  //       }
-  //     }
-  //     else {
-  //       const position = filterState.density.indexOf(value);
-  //       if (position !== -1) {
-  //         filterState.density.splice(position, 1);
-  //       }
-  //     }
-  //     showImage(filterState.currentImage);
-  //   });
-  // });
 
   redrawImageQualityFilters();
   redrawImageDensityFilters();
