@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
   const imgContainer = document.querySelector('.image-viewer__viewer');
 
-  const navButtons = Array.from(document.querySelectorAll('.nav-button'));
+  const imgSamples = Array.from(document.querySelectorAll('.img-sample'));
 
   const filterState = {
     density: 'standard',
@@ -130,9 +130,9 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
       }
       const img = document.createElement('img');
-      img.style.maxWidth = `${filterState.imgSize}px`;
+      img.className = `image-viewer__${filterState.imgSize}`;
       let src = createImageSourceWithSize(
-        navButtons[selectedImage].dataset.imgUrl,
+        imgSamples[selectedImage].dataset.imgUrl,
         filterState.density === 'standard' ? filterState.imgSize : 2 * filterState.imgSize
       );
       src = createImageSourceWithQuality(
@@ -160,9 +160,9 @@ document.addEventListener("DOMContentLoaded", function() {
     description.textContent = `To Do: Add size`;
 
     const img = document.createElement('img');
-    img.style.maxWidth = `${filterState.imgSize}px`;
+    img.className = `image-viewer__${filterState.imgSize}`;
     let src = createImageSourceWithSize(
-      navButtons[selectedImage].dataset.imgUrl,
+      imgSamples[selectedImage].dataset.imgUrl,
       filterState.density === 'standard' ? filterState.imgSize : 2 * filterState.imgSize
     );
 
@@ -175,14 +175,14 @@ document.addEventListener("DOMContentLoaded", function() {
     filterState.currentImage = selectedImage;
     clearElementChildren(imgContainer);
 
-    if (/\.jpe?g$/.test(navButtons[selectedImage].dataset.imgUrl)) {
+    if (/\.jpe?g$/.test(imgSamples[selectedImage].dataset.imgUrl)) {
       showImageJpeg(selectedImage);
     } else {
       showImagePng(selectedImage);
     }
   }
 
-  navButtons.forEach((el, index) => {
+  imgSamples.forEach((el, index) => {
     el.addEventListener('click', () => {
       showImage(index)
     });
