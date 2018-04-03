@@ -113,16 +113,22 @@ document.addEventListener("DOMContentLoaded", function() {
     showImage(filterState.currentImage);
   }
 
+  function getImageFileSize(imgSrc, cb) {
+    function getHeaderTime () {
+      cb(this.getResponseHeader("Content-Length"));
+    }
+
+    var oReq = new XMLHttpRequest();
+    oReq.open("HEAD", imgSrc);
+    oReq.onload = getHeaderTime;
+    oReq.send();
+  }
+
   function showImageJpeg(selectedImage) {
     availableQualities.forEach(quality => {
       if (filterState.quality.indexOf(quality) === -1) {
         return;
       }
-      const description = document.createElement('div');
-      description.className = 'image-viewer__description';
-      // TODO: Perform Ajax request to get content-length header and display as KBs.
-      description.textContent = `Quality: ${quality}%`;
-
       const img = document.createElement('img');
       img.style.maxWidth = `${filterState.imgSize}px`;
       let src = createImageSourceWithSize(
@@ -133,8 +139,15 @@ document.addEventListener("DOMContentLoaded", function() {
         src,
         quality
       );
-
       img.src = createImageSourceWithCorrectExtentsion(src);
+
+      const description = document.createElement('div');
+      description.className = 'image-viewer__description';
+      getImageFileSize(img.src, contentLength => {
+        const lengthInKb = (contentLength/1024).toFixed(1);
+        description.textContent = `Quality: ${quality}% Size: ${lengthInKb} KB`;
+      });
+
       imgContainer.appendChild(img);
       imgContainer.appendChild(description);
     });
