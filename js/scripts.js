@@ -165,7 +165,15 @@ document.addEventListener("DOMContentLoaded", function() {
       const description = document.createElement('div');
       description.className = 'image-viewer__description';
       getImageFileSize(img.src, contentLength => {
-        const lengthInKb = (contentLength/1024).toFixed(1);
+        let lengthInKb = String((contentLength/1024).toFixed(1));
+        const matches = /\d{1,3}(?:\.\d)?$/.exec(lengthInKb);
+        const afterComma = String(matches[0]);
+        if (lengthInKb.length > afterComma.length) {
+          lengthInKb = [
+            lengthInKb.substr(0, lengthInKb.length - afterComma.length),
+            afterComma
+          ].join(',');
+        }
         description.textContent = `Quality: ${quality}% Size: ${lengthInKb} KB`;
       });
 
