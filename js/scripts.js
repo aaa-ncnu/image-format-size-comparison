@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function() {
       cb(this.getResponseHeader("Content-Length"));
     }
 
-    var oReq = new XMLHttpRequest();
+    const oReq = new XMLHttpRequest();
     oReq.open("HEAD", imgSrc);
     oReq.onload = getHeaderTime;
     oReq.send();
@@ -154,10 +154,6 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function showImagePng(selectedImage) {
-    const description = document.createElement('div');
-    description.className = 'image-viewer__description';
-    // TODO: Perform Ajax request to get content-length header and display as KBs.
-    description.textContent = `To Do: Add size`;
 
     const img = document.createElement('img');
     img.className = `image-viewer__${filterState.imgSize}`;
@@ -165,8 +161,15 @@ document.addEventListener("DOMContentLoaded", function() {
       imgSamples[selectedImage].dataset.imgUrl,
       filterState.density === 'standard' ? filterState.imgSize : 2 * filterState.imgSize
     );
-
     img.src = createImageSourceWithCorrectExtentsion(src);
+
+    const description = document.createElement('div');
+    description.className = 'image-viewer__description';
+    getImageFileSize(img.src, contentLength => {
+      const lengthInKb = (contentLength/1024).toFixed(1);
+      description.textContent = `Size: ${lengthInKb} KB`;
+    });
+
     imgContainer.appendChild(img);
     imgContainer.appendChild(description);
   }
