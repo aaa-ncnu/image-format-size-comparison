@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const availableQualities = [100, 90, 80, 70, 60, 50, 40];
 
+  const onGitHubPages = /\.github\.io$/.test(window.location.hostname);
+
   function getImageWebPFilterElement() {
     return document.getElementById('webP');
   }
@@ -82,6 +84,13 @@ document.addEventListener("DOMContentLoaded", function() {
     redrawImageWebPFilter();
   }
 
+  function createImageSourceSupportForGithubPages(imgSrc) {
+    if (onGitHubPages) {
+      return `/image-format-size-comparison${imgSrc}`;
+    }
+    return imgSrc;
+  }
+
   function createImageSourceWithSize(imgSrc, width) {
     const re = /(.*)\.([^.]+)$/;
     const [, path, extension] = re.exec(imgSrc);
@@ -139,7 +148,8 @@ document.addEventListener("DOMContentLoaded", function() {
         src,
         quality
       );
-      img.src = createImageSourceWithCorrectExtentsion(src);
+      src = createImageSourceWithCorrectExtentsion(src);
+      img.src = createImageSourceSupportForGithubPages(src);
 
       const description = document.createElement('div');
       description.className = 'image-viewer__description';
@@ -161,7 +171,8 @@ document.addEventListener("DOMContentLoaded", function() {
       imgSamples[selectedImage].dataset.imgUrl,
       filterState.density === 'standard' ? filterState.imgSize : 2 * filterState.imgSize
     );
-    img.src = createImageSourceWithCorrectExtentsion(src);
+    src = createImageSourceWithCorrectExtentsion(src);
+    img.src = createImageSourceSupportForGithubPages(src);
 
     const description = document.createElement('div');
     description.className = 'image-viewer__description';
