@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function getImageFileSize(imgSrc, cb) {
-    function getHeaderTime () {
+    function getHeaderTime() {
       cb(this.getResponseHeader("Content-Length"));
     }
 
