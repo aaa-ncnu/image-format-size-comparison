@@ -54,6 +54,10 @@ img {
   height: auto;
 }
 
+.img-sample.img-active {
+  text-decoration: underline;
+}
+
 // grid
 .container {
   display: grid;

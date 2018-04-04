@@ -112,6 +112,17 @@ document.addEventListener("DOMContentLoaded", function() {
     return `${path}-${quality}q.${extension}`;
   }
 
+  function applyActiveStateToImage(imgIndex) {
+    Array.from(document.querySelectorAll('.img-sample')).forEach((el, index) => {
+      if (index === imgIndex) {
+        el.classList.add('img-active');
+      }
+      else {
+        el.classList.remove('img-active');
+      }
+    });
+  }
+
   function clearElementChildren(element) {
     Array.from(element.children).forEach(child => {
       element.removeChild(child);
@@ -186,6 +197,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function showImage(selectedImage) {
     filterState.currentImage = selectedImage;
+    applyActiveStateToImage(selectedImage);
     clearElementChildren(imgContainer);
 
     if (/\.jpe?g$/.test(imgSamples[selectedImage].dataset.imgUrl)) {
