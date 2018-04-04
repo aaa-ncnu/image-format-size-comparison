@@ -164,7 +164,6 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function showImagePng(selectedImage) {
-
     const img = document.createElement('img');
     img.className = `image-viewer__${filterState.imgSize}`;
     let src = createImageSourceWithSize(
@@ -191,8 +190,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (/\.jpe?g$/.test(imgSamples[selectedImage].dataset.imgUrl)) {
       showImageJpeg(selectedImage);
+      document.querySelector('.quality-filters').style.display = '';
     } else {
       showImagePng(selectedImage);
+      document.querySelector('.quality-filters').style.display = 'none';
     }
   }
 
